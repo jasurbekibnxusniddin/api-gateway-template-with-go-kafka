@@ -6,7 +6,7 @@ import (
 	"github.com/google/uuid"
 )
 
-type TodoMode struct {
+type TodoModel struct {
 	Id          uuid.UUID `json:"id"`
 	Task        string    `json:"task"`
 	IsCompleted bool      `json:"is_completed"`

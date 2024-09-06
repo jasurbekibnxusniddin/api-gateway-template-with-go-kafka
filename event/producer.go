@@ -34,3 +34,21 @@ func (e *event) CreateTodo(data *dto.CreateTodoDto) error {
 
 	return nil
 }
+
+func (e *event) UpdateTodo(data *dto.UpdateTodoDto) error {
+
+	topic := "update_todo"
+
+	msg, err := json.Marshal(data)
+	if err != nil {
+		log.Println("error on Marshal. Error:", err)
+		return err
+	}
+
+	err = SendMessage(topic, msg)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

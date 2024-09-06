@@ -12,20 +12,26 @@ const KafkaBroker = "localhost:9092"
 var writer *kafka.Writer
 
 func initKafkaWriter(topic string) *kafka.Writer {
-	return kafka.NewWriter(kafka.WriterConfig{
+
+	kafkaWriter := kafka.NewWriter(kafka.WriterConfig{
 		Brokers:  []string{KafkaBroker},
 		Topic:    topic,
 		Balancer: &kafka.LeastBytes{},
 	})
+
+	return kafkaWriter
 }
 
 func SendMessage(topic string, msg []byte) error {
-	// Lazily initialize Kafka writer if not already initialized
+
 	if writer == nil {
 		writer = initKafkaWriter(topic)
 	}
 
-	err := writer.WriteMessages(context.Background(),
+	defer CloseKafkaWriter()
+
+	err := writer.WriteMessages(
+		context.Background(),
 		kafka.Message{
 			Value: msg,
 		},

@@ -19,6 +19,7 @@ func Api(o Options) *echo.Echo {
 	api := router.Group("/api")
 	{
 		api.POST("/todo", h.CreateTodo)
+		api.PUT("/todo", h.CreateTodo)
 	}
 
 	return router
